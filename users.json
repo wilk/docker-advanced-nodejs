@@ -1,0 +1,21 @@
+[{
+  "name": "foo",
+  "age": 52,
+  "living": true
+}, {
+  "name": "bar",
+  "age": 13,
+  "living": true
+}, {
+  "name": "meh",
+  "age": 94,
+  "living": false
+}, {
+  "name": "wat",
+  "age": 115,
+  "living": false
+}, {
+  "name": "lol",
+  "age": 31,
+  "living": true
+}]
