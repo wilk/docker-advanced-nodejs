@@ -2,26 +2,32 @@ version: "3"
 
 services:
   app:
+    command: "npm run dev"
     build:
       context: .
-    image: node_app:1.0.0
-    env_file: .env
+    image: node-app-img:1.1.0
     volumes:
       - ./:/opt/app
     ports:
       - "12345:12345"
-
-  redis:
-    image: redis:4.0.8
-    volumes:
+    env_file: .env
+    depends_on:
+      - mongo-db
       - redis
 
-  db:
+  mongo-db:
     image: mongo:3.6.2
     volumes:
-      - db:/data/db
+      - mongo-db-data:/data/db
+      - mongo-db-config:/data/configdb
     ports:
       - "27017:27017"
 
+  redis:
+    image: redis:4.0.8-alpine
+
 volumes:
-  db:
+  mongo-db-data:
+    external: true
+  mongo-db-config:
+    external: true
