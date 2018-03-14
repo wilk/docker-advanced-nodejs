@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+  labels:
+    tier: application
+    role: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: application
+      role: web
+  template:
+    metadata:
+      labels:
+        tier: application
+        role: web
+    spec:
+      containers:
+      - name: node-app
+        image: node-app-img:1.1.0
+        ports:
+        - containerPort: 12345
+        env:
+        - name: NODE_DEBUG
+          value: redis
+        - name: APP_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: node-config
+              key: APP_PORT
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: node-config
+              key: REDIS_HOST
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: node-config
+              key: DB_HOST
+        - name: SESSION_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: session-secret
+              key: SESSION_SECRET
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-service
+  labels:
+    tier: network
+    role: np-node
+spec:
+  type: NodePort
+  ports:
+  - name: node
+    port: 12345
+    targetPort: 12345
+  selector:
+    tier: application
+    role: web

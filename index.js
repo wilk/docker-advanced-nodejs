@@ -64,14 +64,7 @@ app.use((req, res, next) => {
 
   next()
 })
-app.post('/login', async (req, res) => {
-  for (let i = 0; i < 1000000000; i++) {
-    let j = 0
-    j++
-  }
-
-  res.send(process.env.SESSION_SECRET)
-})
+app.post('/login', async (req, res) => res.send(process.env.SESSION_SECRET))
 
 router.route('/')
   .get(async (req, res) => {

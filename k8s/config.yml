@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-config
+  labels:
+    tier: config
+    role: environment
+data:
+  APP_PORT: "12345"
+  REDIS_HOST: db-service
+  DB_HOST: mongodb://db-service/node-app
+  NODE_DEBUG: redis
